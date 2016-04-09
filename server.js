@@ -13,6 +13,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true  }));
 app.use(express.static("public"));
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+)
 // twilio auth info
 const twilioAuthToken = "eb79f9d80e57f9565751f8864069023a";
 const twilioAcountSID = "AC35d22e92aa9970ac324df8bda02480e8";
