@@ -9,6 +9,20 @@ app.use(morgan("dev"));
 // enable POST request body parsing
 app.use(bodyParser.json());
 
+// twilio auth info
+const twilioAuthToken = "eb79f9d80e57f9565751f8864069023e8";
+const twilioAcountSID = "AC35d22e92aa9970ac324df8bda02480";
+const twilio = require('twilio')(twilioAcountSID, twilioAuthToken);
+
+app.get('/sms', function(req, res) {
+
+  var response = "Hey";
+  client.messages.create({
+    to: "+16313749744",
+    from: "+18586836690",
+    body: response
+  })
+});
 
 app.post('/slack', function(req,res) {
   
