@@ -10,6 +10,7 @@ app.use(morgan("dev"));
 
 // enable POST request body parsing
 app.use(bodyParser.json());
+app.use(express.static("public"));
 
 // twilio auth info
 const twilioAuthToken = "eb79f9d80e57f9565751f8864069023e8";
@@ -28,7 +29,6 @@ app.get('/sms', function(req, res) {
   });
   
   res.json({hey: "hey"});
-
 });
 
 app.post('/slack', function(req,res) {
@@ -61,7 +61,7 @@ app.get("/api/v1/voter/geo/:lat/:lng", (req, res) => {
         data: {
           name: data.name,
           address: data.fullAddress,
-          disabled: data.disabled,
+          disabled: Boolean(data.disabled.length),
           town: data.town,
           district: {
             main: data.district,
