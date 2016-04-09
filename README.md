@@ -32,20 +32,16 @@ GET /api/v1/voter/geo_raw/:lat/:lng
 ```
 {
   "data": {
-    "name": "BELGIUM-COLD SPRINGS FIRE HOUSE",
-    "fullAddress": "(RADISSON) 8451 LOOP RD BALDWINSVILLE NY 13027",
+    "name": "MANLIUS VILLAGE CENTRE",
+    "address": "ONE ARKIE ALBANESE AVE MANLIUS NY 13104 ",
     "disabled": "This Polling Place is Accessible to the disabled",
-    "town": "Lysander",
-    "ward": "000",
-    "district": "018",
-    "school": null,
-    "congress": "24th Congressional District",
-    "senate": "50th Senatorial District",
-    "assembly": "120th Assembly District",
-    "otherDistrict1": null,
-    "otherDistrict2": "1st County Legislative District",
-    "otherDistrict3": null,
-    "otherDistrict4": null
+    "town": "Manlius",
+    "district": {
+      "main": "025",
+      "congress": "24th Congressional District",
+      "senate": "50th Senatorial District",
+      "assembly": "127th Assembly District"
+    }
   }
 }
 ```
