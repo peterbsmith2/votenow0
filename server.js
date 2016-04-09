@@ -26,7 +26,6 @@ app.get('/sms', function(req, res) {
 });
 
 app.post('/slack', function(req,res) {
-  
   if (req.body.token === "hxFBZTk5wykVuCnq1s9qBY34") {
     var text = req.body.text;
     var response;
@@ -36,9 +35,8 @@ app.post('/slack', function(req,res) {
 
 
     res.json(response);
-
   }
-})
+});
 
 app.get("/api/v1/voter/geo_raw/:lat/:lng", (req, res) => {
   lookupAddress(req.params.lat, req.params.lng).then((data) => {
