@@ -18,6 +18,7 @@
       <a
         href="#"
         class="btn btn-primary"
+        style="display: none;"
       >Go to this place</a>
     </div>
     <div class="disabled"></div>
@@ -43,6 +44,7 @@ function init() {
           $(".address span").html(data.data.address);
           $(".disabled").html(data.data.disabled ? "(Accessible to the disabled)" : "")
           $(".address a").css("display", "block");
+          $(".btn").css("display", "inline-block");
           $(".address a").attr(
             "href",
             "https://maps.google.com/maps/place/"+encodeURI(data.data.address)
@@ -55,7 +57,7 @@ function init() {
     })
   }, function() {
     // no geolocation data
-    console.error("error")
+    console.error("error getting geolocation")
   });
 };
 init();
