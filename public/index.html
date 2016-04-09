@@ -1,0 +1,62 @@
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<style>
+.btn.btn-primary {
+  display: inline-block;
+  margin: 20px;
+}
+</style>
+
+<body style="background: #eee; padding-top: 20px;">
+  <div class="container panel out" style="padding: 20px; width: 400px; text-align: center;">
+    <h1 style="margin-bottom: 20px;">Your polling place</h1>
+    <div class="loading">Loading...</div>
+    <div class="error"></div>
+    <div class="name"></div>
+    <div class="address">
+      <span></span>
+      <a
+        href="#"
+        class="btn btn-primary"
+      >Go to this place</a>
+    </div>
+    <div class="disabled"></div>
+
+    <hr/>
+  </div>
+
+</body>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<script>
+function init() {
+  navigator.geolocation.getCurrentPosition(function(geo) {
+    $.ajax({
+      url: "/api/v1/voter/geo/"+geo.coords.latitude+"/"+geo.coords.longitude,
+      method: "GET",
+      success: function(data) {
+        if (data) {
+          $(".loading").css("display", "none");
+          $(".name").html(data.data.name);
+          $(".address span").html(data.data.address);
+          $(".disabled").html(data.data.disabled ? "(Accessible to the disabled)" : "")
+          $(".address a").css("display", "block");
+          $(".address a").attr(
+            "href",
+            "https://maps.google.com/maps/place/"+encodeURI(data.data.address)
+          );
+        } else {
+          $(".error").html("Bad data");
+        }
+      },
+      error: console.log.bind(console),
+    })
+  }, function() {
+    // no geolocation data
+    console.error("error")
+  });
+};
+init();
+</script>
