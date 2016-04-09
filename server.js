@@ -22,7 +22,8 @@ app.get('/sms', function(req, res) {
     from: "+18586836690",
     body: response
   }, function(err, message) {
-    console.log(message.sid);
+    console.log(err);
+   // console.log(message.sid);
   });
   
   res.json({hey: "hey"});
