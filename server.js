@@ -10,25 +10,36 @@ app.use(morgan("dev"));
 
 // enable POST request body parsing
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true  }));
 app.use(express.static("public"));
 
 // twilio auth info
-const twilioAuthToken = "eb79f9d80e57f9565751f8864069023e8";
-const twilioAcountSID = "AC35d22e92aa9970ac324df8bda02480";
+const twilioAuthToken = "eb79f9d80e57f9565751f8864069023a";
+const twilioAcountSID = "AC35d22e92aa9970ac324df8bda02480e8";
 const twilio = require('twilio')(twilioAcountSID, twilioAuthToken);
 
-app.get('/sms', function(req, res) {
-  var response = "Hey";
-  twilio.messages.create({
-    to: "+16313749744",
-    from: "+18586836690",
-    body: response
-  }, function(err, message) {
-    console.log(err);
-   // console.log(message.sid);
-  });
+app.post('/sms', function(req, res) {
+  var body = req.body;
+  console.log(req.body);    
+  lookupAddressViaString(body.Body).then(getVotingData).then(function(data) {
+  
+    console.log(data);
+    var response = data.name;
+
+    twilio.messages.create({
+      to: body.From,
+      from: "+18586836690",
+      body: response
+    }, function(err, message) {
+      console.log(err);
+     // console.log(message.sid);
+    });
+  
+    res.end();
   
   res.json({hey: "hey"});
+  });
+
 });
 
 app.post('/slack', function(req,res) {
@@ -43,6 +54,10 @@ app.post('/slack', function(req,res) {
     res.json(response);
   }
 });
+
+//Post request for twitter
+
+//There will be twitter code here someday...
 
 // get raw geolocation data
 app.get("/api/v1/voter/geo_raw/:lat/:lng", (req, res) => {
