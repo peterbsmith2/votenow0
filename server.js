@@ -18,18 +18,23 @@ const twilio = require('twilio')(twilioAcountSID, twilioAuthToken);
 
 app.post('/sms', function(req, res) {
   var body = req.body;
+     
+  lookupAddressViaString(body.Body).then(getVotingData).then(function(data) {
   
+    var response = data.data.name;
 
-  twilio.messages.create({
-    to: "+16313749744",
-    from: "+18586836690",
-    body: response
-  }, function(err, message) {
-    console.log(err);
-   // console.log(message.sid);
-  });
+    twilio.messages.create({
+      to: body.from,
+      from: "+18586836690",
+      body: response
+    }, function(err, message) {
+      console.log(err);
+     // console.log(message.sid);
+    });
   
-  res.json({hey: "hey"});
+    res.end();
+  
+  });
 
 });
 
