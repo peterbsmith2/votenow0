@@ -18,7 +18,7 @@ const twilio = require('twilio')(twilioAcountSID, twilioAuthToken);
 
 app.post('/sms', function(req, res) {
   var body = req.body;
-     
+  console.log(req.body);    
   lookupAddressViaString(body.Body).then(getVotingData).then(function(data) {
   
     var response = data.data.name;
