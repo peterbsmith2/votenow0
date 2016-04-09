@@ -17,7 +17,7 @@ const twilio = require('twilio')(twilioAcountSID, twilioAuthToken);
 app.get('/sms', function(req, res) {
 
   var response = "Hey";
-  client.messages.create({
+  twilio.messages.create({
     to: "+16313749744",
     from: "+18586836690",
     body: response
