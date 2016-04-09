@@ -12,15 +12,17 @@ app.use(bodyParser.json());
 
 app.post('/slack', function(req,res) {
   
-  var text = req.body.text;
-  var response;
-  
-  response = "test";
+  if (req.body.token === "hxFBZTk5wykVuCnq1s9qBY34") {
+    var text = req.body.text;
+    var response;
+    
+    response = "test";
 
 
 
-  res.json(response);
+    res.json(response);
 
+  }
 })
 
 
