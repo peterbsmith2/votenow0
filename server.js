@@ -1,7 +1,9 @@
-var express = require('express');
-var app = express();
-var morgan = require('morgan');
-var bodyParser = require('body-parser');
+"use strict";
+const express = require('express'),
+      app = express(),
+      morgan = require('morgan'),
+      bodyParser = require('body-parser'),
+        request = require('request-promise');
 
 // enable developer logs
 app.use(morgan("dev"));
@@ -15,7 +17,6 @@ const twilioAcountSID = "AC35d22e92aa9970ac324df8bda02480";
 const twilio = require('twilio')(twilioAcountSID, twilioAuthToken);
 
 app.get('/sms', function(req, res) {
-
   var response = "Hey";
   twilio.messages.create({
     to: "+16313749744",
@@ -31,7 +32,6 @@ app.get('/sms', function(req, res) {
 });
 
 app.post('/slack', function(req,res) {
-  
   if (req.body.token === "hxFBZTk5wykVuCnq1s9qBY34") {
     var text = req.body.text;
     var response;
@@ -41,10 +41,67 @@ app.post('/slack', function(req,res) {
 
 
     res.json(response);
-
   }
-})
+});
 
+app.get("/api/v1/voter/geo_raw/:lat/:lng", (req, res) => {
+  lookupAddress(req.params.lat, req.params.lng).then((data) => {
+    res.send(data);
+  });
+});
+
+app.get("/api/v1/voter/geo/:lat/:lng", (req, res) => {
+  lookupAddress(req.params.lat, req.params.lng).then(getVotingData).then((data) => {
+    if (data.name === null) {
+      res.send({error: "No data? Panic!"});
+    } else {
+      res.send({
+        data,
+      });
+    }
+  });
+});
+
+// lookup the address for the lat and lng of a location
+function lookupAddress(lat, lng) {
+  return request({
+    method: "GET",
+    url: "https://api.geocod.io/v1/reverse",
+    qs: {
+      q: `${lat},${lng}`,
+      api_key: "0986aa769a9a0c42065541c057ca55000c7a400",
+    },
+  }).then((data) => {
+    return JSON.parse(data);
+  }).then((json) => {
+    if (json.results && json.results.length) {
+      let result = json.results[0];
+      return {
+        number: result.address_components.number,
+        street: result.address_components.formatted_street,
+        city: result.address_components.city,
+        state: result.address_components.state,
+        country: result.address_components.country,
+        zip: result.address_components.zip,
+        location: result.location,
+      };
+    } else {
+      return "bad geoloaction info";
+    }
+  });
+}
+
+function getVotingData(address) {
+  return request({
+    method: "POST",
+    url: "https://apis.opensyracuse.org/elections/",
+    json: {
+      house_num: address.number,
+      street_name: address.street,
+      zip: address.zip,
+    },
+  });
+}
 
 app.listen(process.env.PORT || 3000, () => {
   console.log("Listening on", process.env.PORT || 3000);
