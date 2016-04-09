@@ -22,6 +22,7 @@ app.post('/sms', function(req, res) {
   console.log(req.body);    
   lookupAddressViaString(body.Body).then(getVotingData).then(function(data) {
   
+    console.log(data);
     var response = data.data.name;
 
     twilio.messages.create({
