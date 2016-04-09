@@ -26,7 +26,7 @@ app.post('/sms', function(req, res) {
     var response = data.name;
 
     twilio.messages.create({
-      to: body.from,
+      to: body.From,
       from: "+18586836690",
       body: response
     }, function(err, message) {
