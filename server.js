@@ -44,6 +44,10 @@ app.post('/slack', function(req,res) {
   }
 });
 
+//Post request for twitter
+
+//There will be twitter code here someday...
+
 // get raw geolocation data
 app.get("/api/v1/voter/geo_raw/:lat/:lng", (req, res) => {
   lookupAddress(req.params.lat, req.params.lng).then((data) => {
