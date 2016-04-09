@@ -46,14 +46,29 @@ app.post('/slack', function(req,res) {
   }
 });
 
+// get raw geolocation data
 app.get("/api/v1/voter/geo_raw/:lat/:lng", (req, res) => {
   lookupAddress(req.params.lat, req.params.lng).then((data) => {
     res.send(data);
   });
 });
 
+// get voter data via geolocation
 app.get("/api/v1/voter/geo/:lat/:lng", (req, res) => {
   lookupAddress(req.params.lat, req.params.lng).then(getVotingData).then((data) => {
+    if (data.name === null) {
+      res.send({error: "No data? Panic!"});
+    } else {
+      res.send({
+        data,
+      });
+    }
+  });
+});
+
+// get voter data via address
+app.get("/api/v1/voter/:address", (req, res) => {
+  lookupAddressViaString(req.params.address).then(getVotingData).then((data) => {
     if (data.name === null) {
       res.send({error: "No data? Panic!"});
     } else {
@@ -71,6 +86,35 @@ function lookupAddress(lat, lng) {
     url: "https://api.geocod.io/v1/reverse",
     qs: {
       q: `${lat},${lng}`,
+      api_key: "0986aa769a9a0c42065541c057ca55000c7a400",
+    },
+  }).then((data) => {
+    return JSON.parse(data);
+  }).then((json) => {
+    if (json.results && json.results.length) {
+      let result = json.results[0];
+      return {
+        number: result.address_components.number,
+        street: result.address_components.formatted_street,
+        city: result.address_components.city,
+        state: result.address_components.state,
+        country: result.address_components.country,
+        zip: result.address_components.zip,
+        location: result.location,
+      };
+    } else {
+      return "bad geoloaction info";
+    }
+  });
+}
+
+// lookup the address for the lat and lng of a location
+function lookupAddressViaString(address) {
+  return request({
+    method: "GET",
+    url: "https://api.geocod.io/v1/geocode",
+    qs: {
+      q: address,
       api_key: "0986aa769a9a0c42065541c057ca55000c7a400",
     },
   }).then((data) => {
