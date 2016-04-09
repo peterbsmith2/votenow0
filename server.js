@@ -14,10 +14,8 @@ app.post('/slack', function(req,res) {
   
   var text = req.body.text;
   var response;
-
   
-
-
+  response = "test";
 
 
 
