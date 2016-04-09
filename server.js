@@ -22,6 +22,9 @@ app.get('/sms', function(req, res) {
     from: "+18586836690",
     body: response
   })
+  
+  res.json({hey: "hey"});
+
 });
 
 app.post('/slack', function(req,res) {
