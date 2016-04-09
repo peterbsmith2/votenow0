@@ -58,7 +58,18 @@ app.get("/api/v1/voter/geo/:lat/:lng", (req, res) => {
       res.send({error: "No data? Panic!"});
     } else {
       res.send({
-        data,
+        data: {
+          name: data.name,
+          address: data.fullAddress,
+          disabled: data.disabled,
+          town: data.town,
+          district: {
+            main: data.district,
+            congress: data.congress,
+            senate: data.senate,
+            assembly: data.assembly,
+          },
+        }
       });
     }
   });
@@ -71,7 +82,18 @@ app.get("/api/v1/voter/:address", (req, res) => {
       res.send({error: "No data? Panic!"});
     } else {
       res.send({
-        data,
+        data: {
+          name: data.name,
+          address: data.fullAddress,
+          disabled: data.disabled,
+          town: data.town,
+          district: {
+            main: data.district,
+            congress: data.congress,
+            senate: data.senate,
+            assembly: data.assembly,
+          },
+        }
       });
     }
   });
