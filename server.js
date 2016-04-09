@@ -10,6 +10,7 @@ app.use(morgan("dev"));
 
 // enable POST request body parsing
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true  }));
 
 // twilio auth info
 const twilioAuthToken = "eb79f9d80e57f9565751f8864069023a";
