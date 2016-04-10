@@ -51,7 +51,7 @@ app.post('/sms', function(req, res) {
 });
 
 app.post('/slack', function(req,res) {
-  if (req.body.token === "hxFBZTk5wykVuCnq1s9qBY34") {
+  if (req.body.token === "eoZ59YsZZedrqyRbANsS833z") {
     var text = req.body.text;
     lookupAddressViaString(text).then(getVotingData).then(function(data) {
     
