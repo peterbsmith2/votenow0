@@ -58,7 +58,8 @@ app.post('/slack', function(req,res) {
       console.log(data);
       var response = data.name;
       
-      res.json(response);
+      var address = data.address;
+      res.json(response + " at " +"<https://maps.google.com/maps/place/"+encodeURI(address)+"|"+ address+">");
     });
 
 
