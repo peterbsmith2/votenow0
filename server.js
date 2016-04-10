@@ -59,7 +59,7 @@ app.post('/slack', function(req,res) {
       var response = data.name;
       
       var address = data.fullAddress;
-      res.json("The polling location for " + text + " is\n "  + response + " at " +"<https://maps.google.com/maps/place/"+encodeURI(address)+"|"+ address+">\n<https://twitter.com/home?status=I%20found%20my%20polling%20location%20using%20www.votenow.win%20%23vote%20%23election%20%23usa%20%23opendata%20%23decision2016%20%23election2016%20%23votenow%20|Share On Twitter>");
+      res.json({"text":"The polling location for " + text + " is\n "  + response + " at " +"<https://maps.google.com/maps/place/"+encodeURI(address)+"|"+ address+">\n<https://twitter.com/home?status=I%20found%20my%20polling%20location%20using%20www.votenow.win%20%23vote%20%23election%20%23usa%20%23opendata%20%23decision2016%20%23election2016%20%23votenow%20|Share On Twitter>"});
     });
 
 
