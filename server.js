@@ -84,7 +84,14 @@ app.get("/api/v1/voter/geo_raw/:lat/:lng", (req, res) => {
 
 // get voter data via geolocation
 app.get("/api/v1/voter/geo/:lat/:lng", (req, res) => {
-  voter.lookupAddress(req.params.lat, req.params.lng).then(voter.getVotingData).then((data) => {
+  voter.lookupAddress(req.params.lat, req.params.lng).then(voter.getVotingData)
+  .then((data) => {
+    if (typeof data === "string") {
+      return JSON.parse(data);
+    } else {
+      return data;
+    }
+  }).then((data) => {
     if (data.fullAddress === null || data.fullAddress.trim().length === 0) {
       res.send({error: "No data? Panic!"});
     } else {
@@ -108,13 +115,20 @@ app.get("/api/v1/voter/geo/:lat/:lng", (req, res) => {
 
 // get voter data via address
 app.get("/api/v1/voter/:address", (req, res) => {
-  voter.lookupAddressViaString(req.params.address).then(voter.getVotingData).then((data) => {
+  voter.lookupAddressViaString(req.params.address).then(voter.getVotingData)
+  .then((data) => {
+    if (typeof data === "string") {
+      return JSON.parse(data);
+    } else {
+      return data;
+    }
+  }).then((data) => {
     if (data.fullAddress === null || data.fullAddress.trim().length === 0) {
       res.send({error: "No data? Panic!"});
     } else {
       res.send({
         data: {
-          name: data.name,
+          name: data.name || "Polling Place",
           address: data.fullAddress,
           disabled: data.disabled,
           town: data.town,

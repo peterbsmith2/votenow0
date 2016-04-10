@@ -63,13 +63,14 @@ function lookupAddressViaString(address) {
 
 function getVotingData(address) {
   if (address.number && address.street && address.zip) {
+    console.log(address)
     switch (address.county) {
       // Rochester
       case "Monroe County":
         return request({
           method: "GET",
           url: "https://apis.opensyracuse.org/elections/monroe",
-          json: {
+          qs: {
             house_num: address.number,
             street_name: address.street,
             zip: address.zip,
