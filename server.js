@@ -3,7 +3,7 @@ const express = require('express'),
       app = express(),
       morgan = require('morgan'),
       bodyParser = require('body-parser'),
-        request = require('request-promise');
+      request = require('request-promise');
 
 
 app.use(function(req, res, next) {
