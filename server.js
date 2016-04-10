@@ -6,12 +6,15 @@ const express = require('express'),
       request = require('request-promise'),
       voter = require("./voting");
 
-
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+
+function onError(req, res, error) {
+  res.send({error});
+}
 
 // enable developer logs
 app.use(morgan("dev"));
@@ -76,13 +79,13 @@ app.post('/slack', function(req,res) {
 app.get("/api/v1/voter/geo_raw/:lat/:lng", (req, res) => {
   voter.lookupAddress(req.params.lat, req.params.lng).then((data) => {
     res.send(data);
-  });
+  }).catch(onError.bind(this, req, res));
 });
 
 // get voter data via geolocation
 app.get("/api/v1/voter/geo/:lat/:lng", (req, res) => {
   voter.lookupAddress(req.params.lat, req.params.lng).then(voter.getVotingData).then((data) => {
-    if (data.fullAddress === null) {
+    if (data.fullAddress === null || data.fullAddress.trim().length === 0) {
       res.send({error: "No data? Panic!"});
     } else {
       res.send({
@@ -100,13 +103,13 @@ app.get("/api/v1/voter/geo/:lat/:lng", (req, res) => {
         }
       });
     }
-  });
+  }).catch(onError.bind(this, req, res));
 });
 
 // get voter data via address
 app.get("/api/v1/voter/:address", (req, res) => {
   voter.lookupAddressViaString(req.params.address).then(voter.getVotingData).then((data) => {
-    if (data.fullAddress === null) {
+    if (data.fullAddress === null || data.fullAddress.trim().length === 0) {
       res.send({error: "No data? Panic!"});
     } else {
       res.send({
@@ -124,7 +127,7 @@ app.get("/api/v1/voter/:address", (req, res) => {
         }
       });
     }
-  });
+  }).catch(onError.bind(this, req, res));
 });
 
 app.listen(process.env.PORT || 3000, () => {
