@@ -37,7 +37,7 @@ app.post('/sms', function(req, res) {
     twilio.messages.create({
       to: body.From,
       from: "+18586836690",
-      body: response + " at " + data.fullAddress + "%0a(http://www.votenow.win)"
+      body: response + " at " + data.fullAddress + "\n(http://www.votenow.win)"
     }, function(err, message) {
       console.log(err);
      // console.log(message.sid);
