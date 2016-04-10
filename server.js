@@ -53,14 +53,13 @@ app.post('/sms', function(req, res) {
 app.post('/slack', function(req,res) {
   if (req.body.token === "hxFBZTk5wykVuCnq1s9qBY34") {
     var text = req.body.text;
-    var response;
     lookupAddressViaString(text).then(getVotingData).then(function(data) {
     
+      console.log(data);
       var response = data.name;
       
       res.json(response);
-    })
-    response = "test";
+    });
 
 
 
