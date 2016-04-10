@@ -34,13 +34,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   // setup an abstract state for the tabs directive
   .state('home', {
     url: '/home',
+    cache: false,
     controller: 'HomeCtrl',
     templateUrl: 'templates/home.html'
   })
 
-  .state('form', {
-    url: '/form',
-    templateUrl: 'templates/form.html'
+  .state('wrong', {
+    url: '/wrong',
+    controller: 'WrongCtrl',
+    templateUrl: 'templates/wrong.html'
   })
 
   // Each tab has its own nav history stack:;

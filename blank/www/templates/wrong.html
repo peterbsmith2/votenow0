@@ -1,0 +1,21 @@
+<ion-view view-title="Wrong">
+  <ion-content class="padding">
+    <form name="wrongForm" ng-submit="polling()" novalidate>
+      <div class="list">
+        <label class="item item-input">
+          <input type="text" name="street" ng-model="f.street" placeholder="235 Harrison St" required>
+        </label>
+        <label class="item item-input">
+          <input type="text" name="city" ng-model="f.city" placeholder="Syracuse" required>
+        </label>
+        <label class="item item-input">
+          <input type="text" name="state" ng-model="f.state" placeholder="NY" required>
+        </label>
+        <label class="item item-input">
+          <input type="text" name="zip" ng-model="f.zip" placeholder="13210" required>
+        </label>
+      </div>
+      <button ng-disabled="wrongForm.$invalid" class="button button-block button-positive">Get Polling Address</button>
+    </form>
+  </ion-content>
+</ion-view>

@@ -1,8 +1,10 @@
 <ion-view view-title="Home">
   <ion-content class="padding">
     <h2>We think your address is...</h2>
-    <p>{{address}}</p>
-    <button class="button button-block">This is Correct</button>
-    <button class="button button-block">Fix</button>
+    <p>{{info.address.full}}</p>
+    <h2>We think your polling address is...</h2>
+    <p>{{info.poll.name}}</p>
+    <p>{{info.poll.address}}</p>
+    <button class="button button-block" ui-sref="wrong">Wrong Address?</button>
   </ion-content>
 </ion-view>
